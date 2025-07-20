@@ -1,0 +1,98 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySprint Platform</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Google Fonts for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <a href="#">StudySprint</a>
+            </div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#students">Spreading Smiles</a></li>
+                <li><a href="#" class="btn">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content container">
+            <h1>Unlock Your Potential with Online Learning<br></h1>
+            <h2>Peer Study Group Finder!</h2><br>
+
+            <p>Discover a new way to learn and achieve your goals from anywhere in the world.</p>
+            <!-- The href attribute now points to the study_groups route -->
+            <a href="{{ url_for('study_groups') }}" class="btn btn-primary">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features container">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <div class="feature-cards">
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/feature-1.png') }}" alt="Interactive Learning">
+                <h3>Interactive Learning</h3>
+                <p>Engage with our interactive courses and hands-on projects to master new skills.</p>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/feature-2.jpg') }}" alt="Expert Instructors">
+                <h3>Expert Instructors</h3>
+                <p>Learn from industry experts who are passionate about teaching.</p>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/feature-3.jpg') }}" alt="Flexible Schedule">
+                <h3>Flexible Schedule</h3>
+                <p>Learn at your own pace and access course materials anytime, anywhere.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-us">
+        <div class="container about-us-content">
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='img/about-us.jpg') }}" alt="About E-Learn">
+            </div>
+            <div class="about-text">
+                <h2 class="section-title">About StudySprint</h2>
+                <p>We are dedicated to providing high-quality, accessible, and affordable education to learners worldwide. Our platform is designed to empower you with the knowledge and skills needed to succeed in your career and personal life.</p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Students Section -->
+    <section id="students" class="students container">
+        <h2 class="section-title">Let's Built Our Happy Learnings!</h2>
+        <div class="student-gallery">
+            <img src="{{ url_for('static', filename='img/student-1.jpg') }}" alt="Student 1">
+            <img src="{{ url_for('static', filename='img/student-2.jpg') }}" alt="Student 2">
+            <img src="{{ url_for('static', filename='img/student-3.png') }}" alt="Student 3">
+            <img src="{{ url_for('static', filename='img/student-4.png') }}" alt="Student 4">
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 StudySprint. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

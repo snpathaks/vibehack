@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySprint - Find Your Perfect Study Group</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg,rgb(2, 67, 24) 0%,rgb(2, 67, 24) 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .page {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(45deg,rgb(1, 7, 3),rgb(12, 1, 23));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .study-group-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .study-group-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .group-subject {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .members-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .chat-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            margin-left: 20%;
+        }
+
+        .message-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .message-input input {
+            flex: 1;
+        }
+
+        .accountability-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e1e5e9;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            transition: width 0.3s ease;
+        }
+
+        /* AI Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg,rgb(4, 5, 3),rgb(0, 0, 1));
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .bot-message {
+            background: #f1f3f5;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            animation: slideIn 0.3s ease;
+        }
+
+        .user-message {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg,rgb(3, 67, 25),rgb(1, 14, 7));
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .chatbot-window {
+                width: 300px;
+                height: 400px;
+            }
+            
+            .group-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>StudySprint</h1>
+            <p class="tagline">Find Your Perfect Study Group with AI-Powered Matching</p>
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="showPage('home')">🏠 Home</button>
+                <button class="tab-btn" onclick="showPage('profile')">👤 Profile</button>
+                <button class="tab-btn" onclick="showPage('matching')">🎯 Find Groups</button>
+                <button class="tab-btn" onclick="showPage('groups')">👥 My Groups</button>
+                <button class="tab-btn" onclick="showPage('chat')">💬 Group Chat</button>
+                <button class="tab-btn" onclick="showPage('accountability')">📈 Progress</button>
+            </div>
+        </header>
+
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <h2>Welcome to StudySprint!</h2>
+            <p style="font-size: 18px; margin: 20px 0; line-height: 1.6;">
+                Connect with like-minded students, form micro study groups, and achieve your academic goals together. 
+                Our AI-powered platform matches you with the perfect study partners based on your subjects, schedules, and learning goals.
+            </p>
+            
+            <div class="grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Matching</h3>
+                    <p>AI-powered algorithm finds students with similar subjects, goals, and schedules</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Group Chat</h3>
+                    <p>Real-time messaging with your study group members</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Daily Accountability</h3>
+                    <p>Track progress and stay motivated with daily check-ins</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Exam Timeline Sync</h3>
+                    <p>Coordinate study schedules based on upcoming exams</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile" class="page">
+            <h2>Create Your Study Profile 📝</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="studentName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>University/College</label>
+                    <input type="text" id="university" placeholder="Enter your institution" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Year of Study</label>
+                    <select id="year" required>
+                        <option value="">Select year</option>
+                        <option value="1st">1st Year</option>
+                        <option value="2nd">2nd Year</option>
+                        <option value="3rd">3rd Year</option>
+                        <option value="4th">4th Year</option>
+                        <option value="postgrad">Postgraduate</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Subjects (comma-separated)</label>
+                    <textarea id="subjects" placeholder="e.g., Mathematics, Physics, Computer Science" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Study Goals</label>
+                    <textarea id="goals" placeholder="What do you want to achieve? e.g., Improve grades, exam preparation..." rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Preferred Study Time</label>
+                    <select id="studyTime">
+                        <option value="morning">Morning (6 AM - 12 PM)</option>
+                        <option value="afternoon">Afternoon (12 PM - 6 PM)</option>
+                        <option value="evening">Evening (6 PM - 10 PM)</option>
+                        <option value="night">Night (10 PM - 2 AM)</option>
+                        <option value="flexible">Flexible</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Upcoming Exam Dates</label>
+                    <input type="date" id="examDate">
+                </div>
+                
+                <button type="submit" class="btn">Save Profile 💾</button>
+            </form>
+        </div>
+
+        <!-- Matching Page -->
+        <div id="matching" class="page">
+            <h2>Find Your Perfect Study Group 🔍</h2>
+            
+            <div class="form-group">
+                <label>Search by Subject</label>
+                <input type="text" id="searchSubject" placeholder="Enter subject to find groups">
+                <button onclick="searchGroups()" class="btn" style="margin-top: 10px;">Search Groups 🔍</button>
+            </div>
+            
+            <div id="matchedGroups">
+                <div class="study-group-card">
+                    <div class="group-header">
+                        <div>
+                            <h3>Advanced Mathematics Study Group</h3>
+                            <div class="group-subject">Mathematics</div>
+                        </div>
+                        <div class="members-count">👥 4/6 members</div>
+                    </div>
+                    <p><strong>Goal:</strong> Prepare for Calculus II final exam</p>
+                    <p><strong>Study Time:</strong> Evening (7 PM - 9 PM)</p>
+                    <p><strong>Exam Date:</strong> December 15, 2025</p>
+                    <p><strong>Topics:</strong> Integration, Differential Equations, Series</p>
+                    <button class="btn" onclick="joinGroup('Math Group')">Join Group 🤝</button>
+                </div>
+                
+                <div class="study-group-card">
+                    <div class="group-header">
+                        <div>
+                            <h3>Computer Science Fundamentals</h3>
+                            <div class="group-subject">Computer Science</div>
+                        </div>
+                        <div class="members-count">👥 3/5 members</div>
+                    </div>
+                    <p><strong>Goal:</strong> Master Data Structures and Algorithms</p>
+                    <p><strong>Study Time:</strong> Afternoon (2 PM - 4 PM)</p>
+                    <p><strong>Exam Date:</strong> December 20, 2025</p>
+                    <p><strong>Topics:</strong> Arrays, Linked Lists, Trees, Sorting</p>
+                    <button class="btn" onclick="joinGroup('CS Group')">Join Group 🤝</button>
+                </div>
+                
+                <div class="study-group-card">
+                    <div class="group-header">
+                        <div>
+                            <h3>Physics Problem Solvers</h3>
+                            <div class="group-subject">Physics</div>
+                        </div>
+                        <div class="members-count">👥 5/6 members</div>
+                    </div>
+                    <p><strong>Goal:</strong> Improve problem-solving skills in Mechanics</p>
+                    <p><strong>Study Time:</strong> Morning (9 AM - 11 AM)</p>
+                    <p><strong>Exam Date:</strong> December 18, 2025</p>
+                    <p><strong>Topics:</strong> Kinematics, Dynamics, Energy, Momentum</p>
+                    <button class="btn" onclick="joinGroup('Physics Group')">Join Group 🤝</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Groups Page -->
+        <div id="groups" class="page">
+            <h2>My Study Groups 👥</h2>
+            
+            <div id="myGroups">
+                <div class="study-group-card">
+                    <div class="group-header">
+                        <div>
+                            <h3>Advanced Mathematics Study Group</h3>
+                            <div class="group-subject">Mathematics</div>
+                        </div>
+                        <div class="members-count">👥 5/6 members</div>
+                    </div>
+                    <p><strong>Next Session:</strong> Today, 7:00 PM</p>
+                    <p><strong>Topic:</strong> Integration by Parts</p>
+                    <p><strong>Members:</strong> You, Sarah, Mike, Alex, Emma</p>
+                    <button class="btn" onclick="showPage('chat')">Open Chat 💬</button>
+                </div>
+                
+                <div class="study-group-card">
+                    <div class="group-header">
+                        <div>
+                            <h3>Create New Group</h3>
+                            <div class="group-subject">+</div>
+                        </div>
+                    </div>
+                    <p>Start your own study group and invite others</p>
+                    <button class="btn" onclick="createNewGroup()">Create Group ➕</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Chat Page -->
+        <div id="chat" class="page">
+            <h2>Group Chat - Advanced Mathematics 💬</h2>
+            
+            <div class="chat-container" id="chatContainer">
+                <div class="message">
+                    <strong>Sarah:</strong> Hey everyone! Ready for today's study session?
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">2:30 PM</div>
+                </div>
+                <div class="message">
+                    <strong>Mike:</strong> Yes! I've been working on the integration problems we discussed yesterday.
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">2:32 PM</div>
+                </div>
+                <div class="message">
+                    <strong>Alex:</strong> I found this great resource for integration by parts. Should I share the link?
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">2:35 PM</div>
+                </div>
+                <div class="message user">
+                    <strong>You:</strong> That would be great! Thanks Alex 👍
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 5px;">2:36 PM</div>
+                </div>
+            </div>
+            
+            <div class="message-input">
+                <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="handleEnter(event)">
+                <button class="btn" onclick="sendMessage()">Send 📤</button>
+            </div>
+        </div>
+
+        <!-- Accountability Page -->
+        <div id="accountability" class="page">
+            <h2>Daily Progress & Accountability 📈</h2>
+            
+            <div class="accountability-item">
+                <h3>Today's Goals</h3>
+                <div style="margin: 15px 0;">
+                    <div>✅ Complete 5 integration problems</div>
+                    <div>✅ Review lecture notes on substitution method</div>
+                    <div>⏳ Practice 3 word problems</div>
+                    <div>❌ Read chapter 7 (section 7.2)</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%"></div>
+                </div>
+                <p>Progress: 3/4 goals completed (75%)</p>
+            </div>
+            
+            <div class="accountability-item">
+                <h3>Weekly Study Streak</h3>
+                <div style="font-size: 24px; margin: 10px 0;">🔥 5 days</div>
+                <p>Keep it up! You're doing great this week.</p>
+            </div>
+            
+            <div class="accountability-item">
+                <h3>Group Study Sessions</h3>
+                <p><strong>This Week:</strong> 4 sessions attended</p>
+                <p><strong>Next Session:</strong> Tomorrow at 7:00 PM</p>
+                <p><strong>Topic:</strong> Trigonometric Integration</p>
+            </div>
+            
+            <div class="accountability-item">
+                <h3>Quick Check-in</h3>
+                <p>How was today's study session?</p>
+                <div style="margin: 15px 0;">
+                    <button class="btn" style="margin: 5px; padding: 10px 15px;" onclick="logMood('great')">😊 Great</button>
+                    <button class="btn" style="margin: 5px; padding: 10px 15px;" onclick="logMood('good')">🙂 Good</button>
+                    <button class="btn" style="margin: 5px; padding: 10px 15px;" onclick="logMood('okay')">😐 Okay</button>
+                    <button class="btn" style="margin: 5px; padding: 10px 15px;" onclick="logMood('difficult')">😔 Difficult</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chatbot -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChatbot()">🤖</button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <h3>StudySprint AI Assistant</h3>
+                <p>Ask me anything about studying!</p>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="bot-message">
+                    Hi! I'm your StudySprint AI assistant 🤖 I can help you with:
+                    <br>• Finding study groups
+                    <br>• Study tips and techniques
+                    <br>• Time management
+                    <br>• Exam preparation strategies
+                    <br><br>What would you like to know?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="Ask me anything..." onkeypress="handleChatbotEnter(event)">
+                <button class="send-btn" onclick="sendChatbotMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+    <div id="profile" class="page">
+        <h2>Create Your Study Profile 📝</h2>
+        <form id="profileForm">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="studentName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label>Subjects (comma-separated)</label>
+                <textarea id="subjects" placeholder="e.g., Mathematics, Physics, Computer Science" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn">Save Profile 💾</button>
+        </form>
+    </div>
+    <div id="matching" class="page">
+        <h2>Find Your Perfect Study Group 🔍</h2>
+        <div id="matchedGroups">
+            <!-- Matched groups will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Profile saved successfully! 🎉');
+            showPage('matching');
+        });
+    </script> 
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const pageElement = document.getElementById(pageId);
+            if (pageElement) pageElement.classList.add('active');
+            // Find the button that corresponds to the pageId and activate it
+            const correspondingButton = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(`'${pageId}'`));
+            if(correspondingButton) correspondingButton.classList.add('active');
+        }
+
+        // --- THIS IS THE UPDATED PART ---
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            // Prevent the default form submission which reloads the page
+            e.preventDefault();
+
+            // Collect the data from the form fields
+            const profileData = {
+                studentName: document.getElementById('studentName').value,
+                university: document.getElementById('university').value,
+                subjects: document.getElementById('subjects').value.split(',').map(s => s.trim())
+            };
+
+            // Use the Fetch API to send the data to our backend
+            fetch('/api/profile', {
+                method: 'POST', // Use the POST method
+                headers: {
+                    'Content-Type': 'application/json' // Tell the server we're sending JSON
+                },
+                body: JSON.stringify(profileData) // Convert the JavaScript object to a JSON string
+            })
+            .then(response => response.json()) // Parse the JSON response from the server
+            .then(data => {
+                // Log the server's response and show an alert
+                console.log('Success:', data);
+                alert(data.message); // Show the success message from the server
+                if(data.status === 'success') {
+                    showPage('matching'); // Move to the next page on success
+                }
+            })
+            .catch((error) => {
+                // Handle any errors
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+
+
+     // --- AI Chatbot Logic ---
+     const socket = io();
+     const chatbotToggle = document.getElementById('chatbotToggle');
+     const chatbotWindow = document.getElementById('chatbotWindow');
+     const chatbotMessages = document.getElementById('chatbotMessages');
+     const chatbotInput = document.getElementById('chatbotInput');
+     const sendBtn = document.getElementById('sendChatbotMessage');
+
+     socket.on('connect', () => console.log('Connected to WebSocket server!'));
+
+     chatbotToggle.addEventListener('click', () => chatbotWindow.classList.toggle('active'));
+
+     function sendChatMessage() {
+         const message = chatbotInput.value.trim();
+         if (message) {
+             appendChatMessage(message, 'user-message');
+             socket.emit('chatbot_message', { 'message': message });
+             chatbotInput.value = '';
+         }
+     }
+
+     sendBtn.addEventListener('click', sendChatMessage);
+     chatbotInput.addEventListener('keypress', e => {
+         if (e.key === 'Enter') sendChatMessage();
+     });
+
+     socket.on('bot_response', data => {
+         appendChatMessage(data.message, 'bot-message');
+     });
+
+     function appendChatMessage(html, className) {
+         const messageElement = document.createElement('div');
+         messageElement.classList.add(className);
+         messageElement.innerHTML = html; // Use innerHTML to render links
+         chatbotMessages.appendChild(messageElement);
+         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+     }
+ });
+    
+    </script>
+
+
+
+     
+
+    <script>
+        // Global variables
+        let currentUser = {
+            name: '',
+            subjects: [],
+            groups: [],
+            studyStreak: 5
+        };
+
+        let chatbotResponses = {
+            'hello': 'Hello! How can I help you with your studies today? 😊',
+            'hi': 'Hi there! What can I assist you with?',
+            'study tips': 'Here are some great study tips:\n\n1. Use the Pomodoro Technique (25 min study, 5 min break)\n2. Create a dedicated study space\n3. Form study groups (like you\'re doing here!)\n4. Use active recall and spaced repetition\n5. Take regular breaks and stay hydrated 💧',
+            'time management': 'Time management is crucial for academic success! Try these strategies:\n\n📅 Create a weekly schedule\n⏰ Set specific study times\n🎯 Prioritize tasks by importance\n📱 Use productivity apps\n🚫 Eliminate distractions\n\nWould you like help creating a study schedule?',
+            'exam preparation': 'Exam preparation strategies:\n\n📚 Start studying 2-3 weeks before\n📝 Create a study plan\n🔄 Review materials regularly\n👥 Study with groups (great choice!)\n📊 Practice with past papers\n😴 Get enough sleep\n🧘 Manage stress with relaxation techniques',
+            'motivation': 'Staying motivated can be challenging! Here\'s what helps:\n\n🎯 Set clear, achievable goals\n🏆 Celebrate small wins\n👥 Study with others for accountability\n💪 Remember your "why" - your bigger goals\n📈 Track your progress\n🎵 Create a motivating study playlist\n\nYou\'re already on the right track by joining study groups!',
+            'find group': 'To find the perfect study group:\n\n1. Go to the "Find Groups" tab 🔍\n2. Search by subject or topic\n3. Check group goals and schedules\n4. Look for groups with similar exam dates\n5. Join groups that match your study style\n\nI can help you identify what to look for in a good study group!',
+            'default': 'I\'m here to help with your studies! You can ask me about:\n\n• Study techniques and tips\n• Time management\n• Exam preparation\n• Finding study groups\n• Staying motivated\n• Academic planning\n\nWhat specific topic would you like help with?'
+        };
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Profile form submission
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            currentUser.name = document.getElementById('studentName').value;
+            currentUser.university = document.getElementById('university').value;
+            currentUser.subjects = document.getElementById('subjects').value.split(',').map(s => s.trim());
+            
+            alert('Profile saved successfully! 🎉 You can now find and join study groups.');
+            showPage('matching');
+        });
+
+        // Search groups function
+        function searchGroups() {
+            const searchTerm = document.getElementById('searchSubject').value.toLowerCase();
+            alert(`Searching for groups related to "${searchTerm}"... 🔍\n\nFound 3 matching groups! Check the results below.`);
+        }
+
+        // Join group function
+        function joinGroup(groupName) {
+            if (!currentUser.name) {
+                alert('Please complete your profile first! 👤');
+                showPage('profile');
+                return;
+            }
+            
+            alert(`Welcome to ${groupName}! 🎉\n\nYou can now:\n• Chat with group
