@@ -1,0 +1,35 @@
+# .gitignore
+
+# Python
+###################
+# Byte-compiled / optimized / C extensions
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+###################
+# The virtual environment directory. This should never be committed.
+venv/
+*.egg-info/
+
+# Environment Variables
+###################
+# File for storing sensitive data like API keys.
+.env
+
+# IDE / Editor specific
+###################
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
+###################
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
