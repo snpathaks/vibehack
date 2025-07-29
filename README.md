@@ -8,7 +8,7 @@ StudySprint is a dynamic web application designed to help students connect and f
 
 The platform is split into a landing page and the main study group application, with the following key features:
 
-**Main Application (`/study-groups`):**
+**Main Application (`/study-groups`):*
 * **👤 User Profiles**: Students can create a profile with their name, university, subjects, and study preferences.
 * **🎯 AI-Powered Matching**: The platform suggests study groups based on shared subjects, goals, and schedules.
 * **👥 Group Management**: Users can browse existing groups, join them, or create their own.
@@ -41,7 +41,7 @@ This project is built with a modern set of technologies:
 
 Follow these steps to get the project running on your local machine.
 
-### 1. Prerequisites
+### 1. Prerequisites :
 
 * Python 3.8+ and `pip`
 * A virtual environment tool (`venv`)
