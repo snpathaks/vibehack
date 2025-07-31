@@ -4,7 +4,7 @@
 
 StudySprint is a dynamic web application designed to help students connect and form effective study groups. It features an AI-powered matching system, real-time group chat, and accountability tools to enhance the learning experience. The platform includes a main landing page and a feature-rich study group hub.
 
-## ✨ Features
+## ✨ Features :
 
 The platform is split into a landing page and the main study group application, with the following key features:
 
