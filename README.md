@@ -20,7 +20,7 @@ The platform is split into a landing page and the main study group application, 
 * **🚀 Modern Landing Page**: A visually appealing home page to attract and inform new users.
 * **Responsive Design**: The entire site is built to work seamlessly across desktops and mobile devices.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack :
 
 This project is built with a modern set of technologies:
 
