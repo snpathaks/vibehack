@@ -24,7 +24,7 @@ The platform is split into a landing page and the main study group application, 
 
 This project is built with a modern set of technologies:
 
-* **Backend**:
+* **Backend** ::
     * **Python**: The primary backend language.
     * **Flask**: A lightweight web framework used to build the web server and API.
     * **Flask-SocketIO**: Enables real-time, bidirectional communication for the chat feature.
